@@ -4,18 +4,18 @@
 
 ### 1、代码编写
 
-`public`里为最终使用的文件，以`/public/index.html`为例
+`resources`里为资源文件，`public`里为最终使用的文件
 
--   引入`css`、`javascript`文件，引入文件为编译后文件
+-   `resources/views/index.html`引入`css`、`javascript`文件，引入文件为编译后文件
 
     ```html
     <!-- Styles -->
-    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="/css/app.css" />
 
     <!-- Scripts -->
-    <script src="js/manifest.js" defer></script>
-    <script src="js/vendor.js" defer></script>
-    <script src="js/app.js" defer></script>
+    <script src="/js/manifest.js" defer></script>
+    <script src="/js/vendor.js" defer></script>
+    <script src="/js/app.js" defer></script>
     ```
 
 -   知道要使用的样式对应的`class`名是什么，可通过[Tailwind CSS](https://tailwindcss.com/docs/)官网文档查找`class`
@@ -30,19 +30,20 @@
     npm install -D jquery
     ```
 
-    在`/resources/js/app.js`引入`jQuery`
+    在`resources/js/app.js`引入`jQuery`
 
     ```javascript
     window.$ = window.jQuery = require('jquery');
     ```
 
-    相应修改`/webpack.mix.js`，增加`.extract(['jquery'], 'jquery.js')`
+    相应修改`webpack.mix.js`，增加`.extract(['jquery'], 'jquery.js')`
 
     ```javascript
     const mix = require('laravel-mix');
 
     mix.js('resources/js/app.js', 'js')
         .postCss('resources/css/app.css', 'css', [require('postcss-import'), require('tailwindcss')])
+        .copyDirectory('resources/views', 'public')
         .setPublicPath('public')
         .extract(['jquery'], 'jquery.js')
         .extract();
@@ -69,6 +70,8 @@
 ### 2、上线
 
 -   `public`里的所有文件即为最终使用的文件
+
+    注：编译后的文件引用，可通过`public/mix-manifest.json`文件中生成的 hash 名替换来有效破坏缓存
 
 <br />
 <br />

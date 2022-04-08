@@ -1,7 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-    content: ['./public/*.html', './public/**/*.html'],
+    content: ['./resources/views/*.{html,php}'],
 
     theme: {
         extend: {
@@ -12,4 +12,10 @@ module.exports = {
     },
 
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+
+    corePlugins: {
+        // preflight: false, // 预设样式开关
+    },
+
+    // prefix: 'tw-', // 自定义前缀
 };
